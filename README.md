@@ -28,6 +28,6 @@ Left Alone is more than just a game; it's an adrenaline-pumping experience that 
 
 - [@kongshij](https://github.com/kongshijatwit)
 - [@KingJay](https://github.com/KingJay014)
-- [@placeholder](https://github.com/placeholder)
+- [@soloveyg](https://github.com/soloveyg)
 - [@toumanisatwit](https://github.com/toumanisatwit)
 
