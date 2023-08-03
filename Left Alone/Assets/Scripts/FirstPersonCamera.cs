@@ -39,4 +39,21 @@ public class FirstPersonCamera : MonoBehaviour
         // Modifies player rotation because camera is already a child
         transform.Rotate(Vector3.up * mouseInput.x);
     }
+
+    void Stop()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        this.enabled = false;
+    }
+
+    void OnEnable() 
+    {
+        Monster.OnCaughtPlayer += Stop;
+    }
+
+    void OnDisable()
+    {
+        Monster.OnCaughtPlayer -= Stop;
+    }
 }

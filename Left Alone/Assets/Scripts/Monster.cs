@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -6,9 +7,11 @@ public class Monster : MonoBehaviour
     public enum State { ROAM, CHASE, CATCH };
     private State currentState = State.ROAM;
 
+    public static Action OnCaughtPlayer = delegate { };
+
     NavMeshAgent enemyAgent;
     EnemyDetection detectionField;
-    [SerializeField] Transform target;
+    Collision collisionData;
 
     [SerializeField] Transform roomContainer = null;
     Transform currentDestination = null;
@@ -47,6 +50,7 @@ public class Monster : MonoBehaviour
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
+            collisionData = other;
             currentState = State.CATCH;
         }
     }
@@ -74,8 +78,8 @@ public class Monster : MonoBehaviour
 
     public void ChasePlayer()
     {
-        currentDestination = target;
-        lastKnown = target.position;
+        currentDestination = detectionField.GetDetectedData();
+        lastKnown = currentDestination.position;
         enemyAgent.SetDestination(currentDestination.position);
 
         if (!detectionField.FoundPlayer())
@@ -86,28 +90,31 @@ public class Monster : MonoBehaviour
 
     void CaughtPlayer()
     {
+        if (collisionData == null) 
+        {
+            return;
+        }
+
         // Stop agent after collision
         enemyAgent.velocity = Vector3.zero;
         enemyAgent.GetComponent<Rigidbody>().isKinematic = true;  // Temporary until i find a jumpscare animation
         enemyAgent.isStopped = true;
 
         // Make player face the monster
-        Vector3 temp = transform.position - target.transform.position;
+        Vector3 temp = transform.position - collisionData.transform.position;
         temp.y = 0;
         Quaternion lookRotation = Quaternion.LookRotation(temp);
-        target.gameObject.transform.rotation = lookRotation;
+        collisionData.transform.rotation = lookRotation;
 
-        // Play jumpscare
+        // Play jumpscare if we somehow find one
 
-
-        // Tell GameManger that it's gameover-- player won't be able to move
-
-
+        // GameOver flag
+        OnCaughtPlayer();
     }
     
     void FindNewRoom()
     {
-        int randomChild = Random.Range(0, roomContainer.childCount - 1);
+        int randomChild = UnityEngine.Random.Range(0, roomContainer.childCount - 1);
         currentDestination = roomContainer.GetChild(randomChild);
         lastKnown = currentDestination.position;
         enemyAgent.SetDestination(currentDestination.position);

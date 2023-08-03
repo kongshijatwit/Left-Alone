@@ -4,6 +4,8 @@ using UnityEngine;
 public class EnemyDetection : MonoBehaviour
 {
     Monster monster;
+
+    Transform detectedData;
     bool foundPlayer = false;
 
     void Start()
@@ -23,6 +25,7 @@ public class EnemyDetection : MonoBehaviour
         {
             if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Player"))
             {
+                detectedData = hit.collider.transform;
                 foundPlayer = true;
             }
         }
@@ -41,5 +44,10 @@ public class EnemyDetection : MonoBehaviour
     public bool FoundPlayer()
     {
         return foundPlayer;
+    }
+
+    public Transform GetDetectedData()
+    {
+        return detectedData;
     }
 }
