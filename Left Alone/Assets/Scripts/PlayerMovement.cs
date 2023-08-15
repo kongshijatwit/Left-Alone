@@ -55,4 +55,19 @@ public class PlayerMovement : MonoBehaviour
             rb.velocity = new Vector3(limitedVel.x, rb.velocity.y, limitedVel.z);
         }
     }
+
+    void Stop()
+    {
+        this.enabled = false;
+    }
+
+    void OnEnable() 
+    {
+        Monster.OnCaughtPlayer += Stop;
+    }
+
+    void OnDisable()
+    {
+        Monster.OnCaughtPlayer -= Stop;
+    }
 }
