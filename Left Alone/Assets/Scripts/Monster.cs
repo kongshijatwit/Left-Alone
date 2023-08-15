@@ -62,9 +62,11 @@ public class Monster : MonoBehaviour
         currentPos.y = currentDestination.position.y;
 
         // Arrived at destination
+        lastKnown = new Vector3(lastKnown.x, 0, lastKnown.z);
+        currentPos = new Vector3(currentPos.x, 0, currentPos.z);
         float lastKnownDistance = (lastKnown - currentPos).magnitude;
         float destinationDistance = (currentDestination.position - currentPos).magnitude;
-        if (destinationDistance < 0.75f || lastKnownDistance < 0.75f)
+        if (destinationDistance < 1f || lastKnownDistance < 1f)
         {
             FindNewRoom();
         }
@@ -114,7 +116,7 @@ public class Monster : MonoBehaviour
     
     void FindNewRoom()
     {
-        int randomChild = UnityEngine.Random.Range(0, roomContainer.childCount - 1);
+        int randomChild = UnityEngine.Random.Range(0, roomContainer.childCount);
         currentDestination = roomContainer.GetChild(randomChild);
         lastKnown = currentDestination.position;
         enemyAgent.SetDestination(currentDestination.position);
