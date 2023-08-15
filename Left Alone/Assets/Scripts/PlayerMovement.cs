@@ -5,6 +5,7 @@ public class PlayerMovement : MonoBehaviour
     CharacterController characterController;
 
     [SerializeField] float moveSpeed;
+    [SerializeField] Transform roomPoints;
 
     float horizontalInput;
     float verticalInput;
@@ -13,6 +14,7 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         characterController = GetComponent<CharacterController>();
+        transform.position = roomPoints.GetChild(Random.Range(0, roomPoints.childCount)).position + new Vector3(0, .75f, 0);
     }
 
     private void Update()
