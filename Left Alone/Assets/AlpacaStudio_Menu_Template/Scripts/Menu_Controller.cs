@@ -65,4 +65,8 @@ public class Menu_Controller : MonoBehaviour {
 			UnityEditor.EditorApplication.isPlaying = false;
 		#endif
 	}
+
+	public void BackToMenu() {
+		UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+	}
 }

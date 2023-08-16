@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.AI;
 
 public class Monster : MonoBehaviour
@@ -111,7 +113,8 @@ public class Monster : MonoBehaviour
         // Play jumpscare if we somehow find one
 
         // GameOver flag
-        OnCaughtPlayer();
+        //OnCaughtPlayer();
+        StartCoroutine(nameof(CatchTime));
     }
     
     void FindNewRoom()
@@ -120,5 +123,12 @@ public class Monster : MonoBehaviour
         currentDestination = roomContainer.GetChild(randomChild);
         lastKnown = currentDestination.position;
         enemyAgent.SetDestination(currentDestination.position);
+    }
+
+    IEnumerator CatchTime()
+    {
+        OnCaughtPlayer();
+        yield return new WaitForSeconds(3);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 }

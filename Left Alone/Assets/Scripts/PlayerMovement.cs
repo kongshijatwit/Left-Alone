@@ -10,11 +10,14 @@ public class PlayerMovement : MonoBehaviour
     float horizontalInput;
     float verticalInput;
     
+    private void Awake() {
+        transform.position = roomPoints.GetChild(Random.Range(0, roomPoints.childCount)).position + new Vector3(0, .75f, 0);
+    }
 
     private void Start()
     {
         characterController = GetComponent<CharacterController>();
-        transform.position = roomPoints.GetChild(Random.Range(0, roomPoints.childCount)).position + new Vector3(0, .75f, 0);
+        
     }
 
     private void Update()
